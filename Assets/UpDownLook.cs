@@ -4,11 +4,11 @@ using System.Collections;
 public class UpDownLook : MonoBehaviour {
 
 	private float angle = 0.0f;
-	private Quaternion rotation = Quaternion.identity;
+	public Quaternion rotation = Quaternion.identity;
 
 	// Use this for initialization
 	void Start () {
-	
+		rotation = Quaternion.identity;
 	}
 	
 	// Update is called once per frame

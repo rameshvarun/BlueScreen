@@ -20,16 +20,20 @@ public class RealWorldControls : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		rigidbody.freezeRotation = true;
-		rigidbody.useGravity = false;
+
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		// Freeze rotation and disable gravity
+		rigidbody.freezeRotation = true;
+		rigidbody.useGravity = false;
+
+		// Horizontal view rotation
 		rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
 
+		// Apply leaning
 		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 70, Time.deltaTime * 5.0f);
-		
 		Quaternion leanRotate = Quaternion.AngleAxis(leanAngle, Vector3.forward);
 		rigidbody.rotation = rotation * leanRotate;
 		
@@ -57,11 +61,9 @@ public class RealWorldControls : MonoBehaviour {
 				                                 rigidbody.velocity.z);
 			}
 
-
-
-
 		}
 
+		// Manually apply gravity
 		rigidbody.AddForce(Physics.gravity * rigidbody.mass);
 
 		grounded = false;
