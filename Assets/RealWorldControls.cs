@@ -36,11 +36,13 @@ public class RealWorldControls : MonoBehaviour {
 		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 70, Time.deltaTime * 5.0f);
 		Quaternion leanRotate = Quaternion.AngleAxis(leanAngle, Vector3.forward);
 		rigidbody.rotation = rotation * leanRotate;
+
+		bool crouching = Input.GetButton("Crouch");
 		
 		if(grounded) {
 			Vector3 targetVel = speed*transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-			if(Input.GetButton("Crouch")) {
+			if(crouching) {
 				height = crouchHeight;
 				targetVel *= 0.7f;
 			}
@@ -61,6 +63,15 @@ public class RealWorldControls : MonoBehaviour {
 				                                 rigidbody.velocity.z);
 			}
 
+
+
+		}
+
+		if(grounded && rigidbody.velocity.magnitude > 0.1 && !crouching) {
+			if(!audio.isPlaying) audio.Play();
+		}
+		else {
+			if(audio.isPlaying) audio.Stop();
 		}
 
 		// Manually apply gravity

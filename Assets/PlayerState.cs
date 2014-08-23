@@ -14,6 +14,7 @@ public class PlayerState : MonoBehaviour {
 
 	public GUITexture clickableTexture;
 	public GUITexture whiteFader;
+	public GUITexture crosshair;
 
 	private CyberspaceEntrance entrance;
 	private int transitionPhase = 0;
@@ -167,6 +168,9 @@ public class PlayerState : MonoBehaviour {
 					Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("CyberSpace"));
 					// Make realworld disappear
 					Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("RealWorld"));
+
+					//Enable crosshair
+					crosshair.enabled = true;
 				}
 			}
 		}
@@ -184,6 +188,9 @@ public class PlayerState : MonoBehaviour {
 				Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("CyberSpace"));
 				// Make realworld visible
 				Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("RealWorld"));
+
+				//Disable crosshair
+				crosshair.enabled = false;
 
 				state = GameState.RealWorld;
 				rigidbody.position = exit.Exit.transform.position;
