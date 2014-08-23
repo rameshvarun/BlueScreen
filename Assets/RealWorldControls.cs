@@ -10,7 +10,7 @@ public class RealWorldControls : MonoBehaviour {
 
 	public bool canJump;
 
-	private Quaternion rotation = Quaternion.identity;
+	public Quaternion rotation = Quaternion.identity;
 
 	private float currentLean = 0;
 
@@ -20,7 +20,7 @@ public class RealWorldControls : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		rotation = Quaternion.identity;
 	}
 	
 	// Update is called once per frame

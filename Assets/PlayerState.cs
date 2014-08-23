@@ -19,6 +19,8 @@ public class PlayerState : MonoBehaviour {
 	private int transitionPhase = 0;
 	private float transitionTime = 0;
 
+	private CyberspaceExit exit;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -81,6 +83,24 @@ public class PlayerState : MonoBehaviour {
 
 			// Camera is centered on rigid body
 			Camera.main.transform.localPosition = new Vector3(0, 0, 0);
+
+			// Check for exit cyberspace
+			RaycastHit hit;
+			Transform cam = Camera.main.transform;
+			if(Physics.Raycast(cam.position, cam.forward, out hit)) {
+				CyberspaceExit exit = hit.collider.gameObject.GetComponent<CyberspaceExit>();
+				if(exit && Vector3.Distance(cam.position, hit.point) < 0.5f ) {
+					clickableTexture.enabled = true;
+					
+					// TODO: Work with controllers
+					if(Input.GetMouseButton(0)) {
+						state = GameState.CyberspaceToRealWorld;
+						this.exit = exit;
+						transitionPhase = 0;
+						transitionTime = 0;
+					}
+				}
+			}
 		}
 		if(state == GameState.RealWorldToCyberspace) {
 			// Disable collisions
@@ -151,6 +171,25 @@ public class PlayerState : MonoBehaviour {
 			}
 		}
 		if(state == GameState.CyberspaceToRealWorld) {
+
+			transitionTime += Time.deltaTime;
+			if(transitionTime < 1.0f) {
+				whiteFader.GetComponent<Fader>().FadeIn();
+			}
+			if(transitionTime > 2.0f) {
+				// Disable Wireframe
+				Camera.main.GetComponent<Wireframe>().enabled = false;
+				
+				// Make Cyberspace disappear
+				Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("CyberSpace"));
+				// Make realworld visible
+				Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("RealWorld"));
+
+				state = GameState.RealWorld;
+				rigidbody.position = exit.Exit.transform.position;
+				GetComponent<RealWorldControls>().rotation = exit.Exit.transform.rotation;
+				whiteFader.GetComponent<Fader>().FadeOut();
+			}
 		}
 	}
 }
