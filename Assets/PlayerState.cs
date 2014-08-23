@@ -16,6 +16,9 @@ public class PlayerState : MonoBehaviour {
 	public GUITexture whiteFader;
 	public GUITexture crosshair;
 
+	public AudioClip realToCyber;
+	public AudioClip cyberToReal;
+
 	private CyberspaceEntrance entrance;
 	private int transitionPhase = 0;
 	private float transitionTime = 0;
@@ -64,6 +67,8 @@ public class PlayerState : MonoBehaviour {
 						this.entrance = entrance;
 						transitionPhase = 0;
 						transitionTime = 0;
+
+						AudioSource.PlayClipAtPoint(realToCyber, transform.position);
 					}
 				}
 			}
@@ -99,6 +104,8 @@ public class PlayerState : MonoBehaviour {
 						this.exit = exit;
 						transitionPhase = 0;
 						transitionTime = 0;
+
+						AudioSource.PlayClipAtPoint(cyberToReal, transform.position);
 					}
 				}
 			}
@@ -118,6 +125,9 @@ public class PlayerState : MonoBehaviour {
 			GetComponent<SphereCollider>().enabled = false;
 			GetComponent<CyberspaceControls>().enabled = false;
 
+			//Make sure footsteps stopped
+			audio.Stop();
+			
 			// Fly to front of entrance
 			if(transitionPhase == 0) {
 				Vector3 targetPosition = entrance.Entrance.transform.position + Vector3.down*1.827f;
@@ -171,6 +181,8 @@ public class PlayerState : MonoBehaviour {
 
 					//Enable crosshair
 					crosshair.enabled = true;
+
+
 				}
 			}
 		}

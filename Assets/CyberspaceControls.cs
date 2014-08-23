@@ -30,7 +30,12 @@ public class CyberspaceControls : MonoBehaviour {
 
 		// Shooting
 		reloadTimer += Time.deltaTime;
-		if(reloadTimer > reloadTime) {
+		if(reloadTimer > reloadTime && Input.GetMouseButton(0)) {
+			Quaternion rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-2.0f, 2.0f), Vector3.up)
+			* Quaternion.AngleAxis(Random.Range(-2.0f, 2.0f), Vector3.right);
+
+			Instantiate(bullet, transform.position, rotation);
+			rigidbody.AddForce(- 3.0f * transform.forward );
 
 			reloadTimer = 0;
 		}
