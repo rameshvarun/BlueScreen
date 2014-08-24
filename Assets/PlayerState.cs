@@ -37,6 +37,8 @@ public class PlayerState : MonoBehaviour {
 	void Start () {
 		health = maxHealth;
 		state = GameState.RealWorld;
+
+		Screen.lockCursor = true;
 	}
 
 	void Hit(float power) {
