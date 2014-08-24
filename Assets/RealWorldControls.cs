@@ -33,7 +33,7 @@ public class RealWorldControls : MonoBehaviour {
 		rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
 
 		// Apply leaning
-		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 70, Time.deltaTime * 5.0f);
+		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 120, Time.deltaTime * 5.0f);
 		Quaternion leanRotate = Quaternion.AngleAxis(leanAngle, Vector3.forward);
 		rigidbody.rotation = rotation * leanRotate;
 

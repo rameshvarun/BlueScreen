@@ -38,7 +38,7 @@ public class PlayerState : MonoBehaviour {
 		health = maxHealth;
 		state = GameState.RealWorld;
 
-		Screen.lockCursor = true;
+
 	}
 
 	void Hit(float power) {
@@ -48,8 +48,11 @@ public class PlayerState : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Screen.lockCursor = true;
+
 		// Update health transparency
-		float newAlpha = Mathf.Lerp(0, 0.5f, (maxHealth - health)/maxHealth);
+		float newAlpha = Mathf.Lerp(0, 0.4f, (maxHealth - health)/maxHealth);
+		newAlpha = Mathf.Clamp(newAlpha, 0.0f, 0.4f);
 		healthFader.color = new Color(healthFader.color.r, healthFader.color.g, healthFader.color.b, newAlpha);
 
 		// Heal rate
