@@ -90,6 +90,7 @@ public class PlayerState : MonoBehaviour {
 			Transform cam = Camera.main.transform;
 			if(Physics.Raycast(cam.position, cam.forward, out hit)) {
 				CyberspaceEntrance entrance = hit.collider.gameObject.GetComponent<CyberspaceEntrance>();
+
 				if(entrance && Vector3.Distance(cam.position, hit.point) < 3.0f ) {
 					clickableTexture.enabled = true;
 
@@ -103,6 +104,8 @@ public class PlayerState : MonoBehaviour {
 						AudioSource.PlayClipAtPoint(realToCyber, transform.position);
 					}
 				}
+
+
 			}
 		}
 		if(state == GameState.Cyberspace) {
@@ -143,6 +146,18 @@ public class PlayerState : MonoBehaviour {
 						GameObject.Find("RealMusic").audio.volume = 0.2f;
 						GameObject.Find("CyberMusic").audio.volume = 0.0f;
 					}
+				}
+			}
+
+			ExitScript levelexit = hit.collider.gameObject.GetComponent<ExitScript>();
+			if(levelexit && Vector3.Distance(cam.position, hit.point) < 0.5f ) {
+				clickableTexture.enabled = true;
+				
+				if(Input.GetMouseButton(0)) {
+					levelexit.Exit();
+					whiteFader.GetComponent<Fader>().FadeIn();
+
+					AudioSource.PlayClipAtPoint(cyberToReal, transform.position);
 				}
 			}
 		}
