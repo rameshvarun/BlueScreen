@@ -13,6 +13,8 @@ public class BulletScript : MonoBehaviour {
 	public AudioClip spawnSound;
 	public AudioClip hitSound;
 
+	public int side = 0;
+
 	// Use this for initialization
 	void Start () {
 		AudioSource.PlayClipAtPoint(spawnSound, transform.position, 0.5f);
@@ -30,7 +32,8 @@ public class BulletScript : MonoBehaviour {
 		RaycastHit hit;
 		Ray ray = new Ray(transform.position, transform.forward);
 		if(Physics.Raycast(ray, out hit, Vector3.Distance(transform.position, newPosition))) {
-			if(hit.collider.tag != "Player") {
+			bool ishit = (side == 0) ? hit.collider.tag != "Player" : hit.collider.tag != "Enemy";
+			if(ishit) {
 				Destroy(this.gameObject);
 				hit.collider.gameObject.SendMessage("Hit", power);
 				AudioSource.PlayClipAtPoint(hitSound, transform.position, 0.1f);
