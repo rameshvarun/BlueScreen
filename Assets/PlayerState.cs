@@ -5,19 +5,23 @@ public enum GameState {
 	Cyberspace,
 	RealWorld,
 	CyberspaceToRealWorld,
-	RealWorldToCyberspace
+	RealWorldToCyberspace,
+	Death
 }
 
 public class PlayerState : MonoBehaviour {
 
-	public static GameState state = GameState.RealWorld;
+	public static GameState state;
 
 	public GUITexture clickableTexture;
 	public GUITexture whiteFader;
 	public GUITexture crosshair;
+	public GUITexture healthFader;
+	public GUITexture blackFader;
 
 	public AudioClip realToCyber;
 	public AudioClip cyberToReal;
+	public AudioClip hurt;
 
 	private CyberspaceEntrance entrance;
 	private int transitionPhase = 0;
@@ -25,13 +29,41 @@ public class PlayerState : MonoBehaviour {
 
 	private CyberspaceExit exit;
 
+	public float maxHealth = 5.0f;
+	public float health;
+	public float healRate = 0.5f;
+
 	// Use this for initialization
 	void Start () {
-	
+		health = maxHealth;
+		state = GameState.RealWorld;
+	}
+
+	void Hit(float power) {
+		health -= power;
+		AudioSource.PlayClipAtPoint(hurt, transform.position);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// Update health transparency
+		float newAlpha = Mathf.Lerp(0, 0.5f, (maxHealth - health)/maxHealth);
+		healthFader.color = new Color(healthFader.color.r, healthFader.color.g, healthFader.color.b, newAlpha);
+
+		// Heal rate
+		health += healRate * Time.deltaTime;
+		if(health > maxHealth)
+			health = maxHealth;
+
+		// Death
+		if(health < 0) {
+			if(state != GameState.Death) {
+				state = GameState.Death;
+				blackFader.GetComponent<Fader>().FadeIn();
+				transitionTime = 0;
+			}
+		}
+
 		clickableTexture.enabled = false;
 		if(state == GameState.RealWorld) {
 			// Disable wireframe
@@ -106,6 +138,10 @@ public class PlayerState : MonoBehaviour {
 						transitionTime = 0;
 
 						AudioSource.PlayClipAtPoint(cyberToReal, transform.position);
+
+						// Switch music
+						GameObject.Find("RealMusic").audio.volume = 0.2f;
+						GameObject.Find("CyberMusic").audio.volume = 0.0f;
 					}
 				}
 			}
@@ -130,12 +166,15 @@ public class PlayerState : MonoBehaviour {
 			
 			// Fly to front of entrance
 			if(transitionPhase == 0) {
-				Vector3 targetPosition = entrance.Entrance.transform.position + Vector3.down*1.827f;
-				Vector3 targetLookat = entrance.FlyTo.transform.position + Vector3.down*1.827f;
+				Vector3 targetPosition = entrance.Entrance.transform.position;// + Vector3.down*1.827f;
+				Vector3 targetLookat = entrance.FlyTo.transform.position;// + Vector3.down*1.827f;
 
 				float lerpSpeed = 4.0f;
 
 				Quaternion targetOrientation = Quaternion.LookRotation(targetLookat - targetPosition);
+
+				targetPosition -= targetOrientation*Vector3.up*1.827f;
+
 				rigidbody.position = Vector3.Lerp(rigidbody.position, targetPosition, Time.deltaTime * lerpSpeed);
 				rigidbody.rotation = Quaternion.Lerp(rigidbody.rotation, targetOrientation, Time.deltaTime * lerpSpeed);
 			
@@ -182,7 +221,9 @@ public class PlayerState : MonoBehaviour {
 					//Enable crosshair
 					crosshair.enabled = true;
 
-
+					// Switch music
+					GameObject.Find("RealMusic").audio.volume = 0.0f;
+					GameObject.Find("CyberMusic").audio.volume = 0.2f;
 				}
 			}
 		}
@@ -208,6 +249,15 @@ public class PlayerState : MonoBehaviour {
 				rigidbody.position = exit.Exit.transform.position;
 				GetComponent<RealWorldControls>().rotation = exit.Exit.transform.rotation;
 				whiteFader.GetComponent<Fader>().FadeOut();
+			}
+		}
+
+		if(state == GameState.Death) {
+
+
+			transitionTime += Time.deltaTime;
+			if(transitionTime > 3.0f) {
+				Application.LoadLevel(Application.loadedLevel);
 			}
 		}
 	}

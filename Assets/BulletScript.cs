@@ -8,6 +8,8 @@ public class BulletScript : MonoBehaviour {
 
 	public float speed = 5.0f;
 
+	public float power = 1.0f;
+
 	public AudioClip spawnSound;
 	public AudioClip hitSound;
 
@@ -30,6 +32,7 @@ public class BulletScript : MonoBehaviour {
 		if(Physics.Raycast(ray, out hit, Vector3.Distance(transform.position, newPosition))) {
 			if(hit.collider.tag != "Player") {
 				Destroy(this.gameObject);
+				hit.collider.gameObject.SendMessage("Hit", power);
 				AudioSource.PlayClipAtPoint(hitSound, transform.position, 0.1f);
 			}
 		}
