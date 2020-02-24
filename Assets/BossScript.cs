@@ -19,8 +19,8 @@ public class BossScript : MonoBehaviour {
 	void Hit(float power) {
 		if(hit == false) {
 			hit = true;
-			rigidbody.velocity = Random.onUnitSphere * 5;
-			rigidbody.angularVelocity = Random.onUnitSphere * 2;
+			GetComponent<Rigidbody>().velocity = Random.onUnitSphere * 5;
+			GetComponent<Rigidbody>().angularVelocity = Random.onUnitSphere * 2;
 		}
 	}
 }

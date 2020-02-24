@@ -148,8 +148,8 @@ public class PlayerState : MonoBehaviour {
 						AudioSource.PlayClipAtPoint(cyberToReal, transform.position);
 
 						// Switch music
-						GameObject.Find("RealMusic").audio.volume = 0.2f;
-						GameObject.Find("CyberMusic").audio.volume = 0.0f;
+						GameObject.Find("RealMusic").GetComponent<AudioSource>().volume = 0.2f;
+						GameObject.Find("CyberMusic").GetComponent<AudioSource>().volume = 0.0f;
 					}
 				}
 			}
@@ -182,7 +182,7 @@ public class PlayerState : MonoBehaviour {
 			GetComponent<CyberspaceControls>().enabled = false;
 
 			//Make sure footsteps stopped
-			audio.Stop();
+			GetComponent<AudioSource>().Stop();
 			
 			// Fly to front of entrance
 			if(transitionPhase == 0) {
@@ -195,8 +195,8 @@ public class PlayerState : MonoBehaviour {
 
 				targetPosition -= targetOrientation*Vector3.up*1.827f;
 
-				rigidbody.position = Vector3.Lerp(rigidbody.position, targetPosition, Time.deltaTime * lerpSpeed);
-				rigidbody.rotation = Quaternion.Lerp(rigidbody.rotation, targetOrientation, Time.deltaTime * lerpSpeed);
+				GetComponent<Rigidbody>().position = Vector3.Lerp(GetComponent<Rigidbody>().position, targetPosition, Time.deltaTime * lerpSpeed);
+				GetComponent<Rigidbody>().rotation = Quaternion.Lerp(GetComponent<Rigidbody>().rotation, targetOrientation, Time.deltaTime * lerpSpeed);
 			
 				Camera.main.transform.localRotation = Quaternion.Lerp(Camera.main.transform.localRotation, Quaternion.identity, Time.deltaTime * lerpSpeed);
 				transitionTime += Time.deltaTime;
@@ -220,14 +220,14 @@ public class PlayerState : MonoBehaviour {
 				Vector3 targetPosition = entrance.FlyTo.transform.position + Vector3.down*1.827f;
 				float lerpSpeed = 4.0f;
 
-				rigidbody.position = Vector3.Lerp(rigidbody.position, targetPosition, Time.deltaTime * lerpSpeed);
+				GetComponent<Rigidbody>().position = Vector3.Lerp(GetComponent<Rigidbody>().position, targetPosition, Time.deltaTime * lerpSpeed);
 
 				whiteFader.GetComponent<Fader>().FadeIn();
 
 				transitionTime += Time.deltaTime;
 				if(transitionTime > 1.5f) {
 					state = GameState.Cyberspace;
-					rigidbody.position = entrance.Exit.transform.position;
+					GetComponent<Rigidbody>().position = entrance.Exit.transform.position;
 					whiteFader.GetComponent<Fader>().FadeOut();
 
 					// Enable Wireframe
@@ -242,8 +242,8 @@ public class PlayerState : MonoBehaviour {
 					crosshair.enabled = true;
 
 					// Switch music
-					GameObject.Find("RealMusic").audio.volume = 0.0f;
-					GameObject.Find("CyberMusic").audio.volume = 0.2f;
+					GameObject.Find("RealMusic").GetComponent<AudioSource>().volume = 0.0f;
+					GameObject.Find("CyberMusic").GetComponent<AudioSource>().volume = 0.2f;
 				}
 			}
 		}
@@ -266,7 +266,7 @@ public class PlayerState : MonoBehaviour {
 				crosshair.enabled = false;
 
 				state = GameState.RealWorld;
-				rigidbody.position = exit.Exit.transform.position;
+				GetComponent<Rigidbody>().position = exit.Exit.transform.position;
 				GetComponent<RealWorldControls>().rotation = exit.Exit.transform.rotation;
 				whiteFader.GetComponent<Fader>().FadeOut();
 			}

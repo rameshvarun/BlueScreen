@@ -26,8 +26,8 @@ public class RealWorldControls : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		// Freeze rotation and disable gravity
-		rigidbody.freezeRotation = true;
-		rigidbody.useGravity = false;
+		GetComponent<Rigidbody>().freezeRotation = true;
+		GetComponent<Rigidbody>().useGravity = false;
 
 		// Horizontal view rotation
 		rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
@@ -35,7 +35,7 @@ public class RealWorldControls : MonoBehaviour {
 		// Apply leaning
 		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 120, Time.deltaTime * 5.0f);
 		Quaternion leanRotate = Quaternion.AngleAxis(leanAngle, Vector3.forward);
-		rigidbody.rotation = rotation * leanRotate;
+		GetComponent<Rigidbody>().rotation = rotation * leanRotate;
 
 		bool crouching = Input.GetButton("Crouch");
 		
@@ -51,31 +51,31 @@ public class RealWorldControls : MonoBehaviour {
 			}
 			this.GetComponent<CapsuleCollider>().height = height;
 
-			Vector3 deltaVel = targetVel - rigidbody.velocity;
+			Vector3 deltaVel = targetVel - GetComponent<Rigidbody>().velocity;
 			deltaVel.x = Mathf.Clamp(deltaVel.x, -maxDeltaVel, maxDeltaVel);
 			deltaVel.z = Mathf.Clamp(deltaVel.z, -maxDeltaVel, maxDeltaVel);
 			deltaVel.y = 0;
-			rigidbody.AddForce(deltaVel, ForceMode.VelocityChange);
+			GetComponent<Rigidbody>().AddForce(deltaVel, ForceMode.VelocityChange);
 
 			if(canJump && Input.GetButton("Jump")) {
-				rigidbody.velocity = new Vector3(rigidbody.velocity.x,
+				GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,
 				                                 Mathf.Sqrt(2 * jumpHeight * ( -Physics.gravity.y) ),
-				                                 rigidbody.velocity.z);
+				                                 GetComponent<Rigidbody>().velocity.z);
 			}
 
 
 
 		}
 
-		if(grounded && rigidbody.velocity.magnitude > 0.1 && !crouching) {
-			if(!audio.isPlaying) audio.Play();
+		if(grounded && GetComponent<Rigidbody>().velocity.magnitude > 0.1 && !crouching) {
+			if(!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
 		}
 		else {
-			if(audio.isPlaying) audio.Stop();
+			if(GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Stop();
 		}
 
 		// Manually apply gravity
-		rigidbody.AddForce(Physics.gravity * rigidbody.mass);
+		GetComponent<Rigidbody>().AddForce(Physics.gravity * GetComponent<Rigidbody>().mass);
 
 		grounded = false;
 	}

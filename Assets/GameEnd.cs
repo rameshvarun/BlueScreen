@@ -35,8 +35,8 @@ public class GameEnd : MonoBehaviour {
 			GUI.Label(position, "Guess I'll live to see another das", style);
 		}*/
 		else {
-			if(!audio.isPlaying)
-				audio.Play();
+			if(!GetComponent<AudioSource>().isPlaying)
+				GetComponent<AudioSource>().Play();
 
 			GUI.Label(position, "Thanks for playing", style);
 		}

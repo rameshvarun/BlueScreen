@@ -33,13 +33,13 @@ public class DroneScript : MonoBehaviour {
 
 
 		RaycastHit hit;
-		Vector3 searchPosition = transform.FindChild("Searchlight").transform.position;
+		Vector3 searchPosition = transform.Find("Searchlight").transform.position;
 
 		if(Physics.Raycast(searchPosition, player.transform.position - searchPosition, out hit) ) {
 			AudioSource.PlayClipAtPoint(droneLaser, hit.point);
 			if(hit.collider.tag == "Player") {
 				player.SendMessage("Hit", power);
-				Instantiate(laser, rigidbody.position, Quaternion.LookRotation(player.transform.position - rigidbody.position) );
+				Instantiate(laser, GetComponent<Rigidbody>().position, Quaternion.LookRotation(player.transform.position - GetComponent<Rigidbody>().position) );
 			}
 		}
 	}
@@ -52,7 +52,7 @@ public class DroneScript : MonoBehaviour {
 			if(!(alertTime > 0.0f)) {
 				if(Vector3.Distance(transform.position, targetPosition) > 1.0f) {
 					Vector3 delta = targetPosition - transform.position;
-					rigidbody.AddForce(delta.normalized * 2.0f);
+					GetComponent<Rigidbody>().AddForce(delta.normalized * 2.0f);
 				}
 				else {
 					currentPath = (currentPath + 1) % path.Length;
@@ -61,16 +61,16 @@ public class DroneScript : MonoBehaviour {
 			else {
 				if(Vector3.Distance(transform.position, player.transform.position) > 6.0f) {
 					Vector3 delta = targetPosition - transform.position;
-					rigidbody.AddForce(delta.normalized * 4.0f);
+					GetComponent<Rigidbody>().AddForce(delta.normalized * 4.0f);
 				}
 			}
 
-			Vector3 targetDirection = (alertTime > 0.0f) ? (rigidbody.position - player.transform.position) : path[currentPath].forward;
+			Vector3 targetDirection = (alertTime > 0.0f) ? (GetComponent<Rigidbody>().position - player.transform.position) : path[currentPath].forward;
 
 			float dangle = Vector3.Angle(transform.forward, targetDirection);
 			if(dangle > 5.0f) {
 				Vector3 cross = Vector3.Cross(transform.forward, targetDirection);
-				rigidbody.AddTorque((cross * dangle).normalized * 2.0f);
+				GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
 			}
 
 			// Orient upwards
@@ -78,7 +78,7 @@ public class DroneScript : MonoBehaviour {
 				dangle = Vector3.Angle(transform.up, Vector3.up);
 				if(dangle > 5.0f) {
 					Vector3 cross = Vector3.Cross(transform.up, Vector3.up);
-					rigidbody.AddTorque((cross * dangle).normalized * 2.0f);
+					GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
 				}
 			}
 			//Orient sideways
@@ -86,19 +86,19 @@ public class DroneScript : MonoBehaviour {
 				dangle = Vector3.Angle(transform.right, Vector3.up);
 				if(dangle > 5.0f) {
 					Vector3 cross = Vector3.Cross(transform.right, Vector3.up);
-					rigidbody.AddTorque((cross * dangle).normalized * 2.0f);
+					GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
 				}
 			}
 
 		}
 
 		// Slight gravity
-		rigidbody.AddForce(Vector3.down * 0.2f);
+		GetComponent<Rigidbody>().AddForce(Vector3.down * 0.2f);
 
 		if(attackDrone) {
 			// Look for player
 			RaycastHit hit;
-			Vector3 searchPosition = transform.FindChild("Searchlight").transform.position;
+			Vector3 searchPosition = transform.Find("Searchlight").transform.position;
 
 			bool seen = false;
 			if(Physics.Raycast(searchPosition, player.transform.position - searchPosition, out hit) ) {
@@ -141,8 +141,8 @@ public class DroneScript : MonoBehaviour {
 			}
 
 			if(alertTime > 0) {
-				if(!transform.FindChild("Alarm").audio.isPlaying)
-					transform.FindChild("Alarm").audio.Play ();
+				if(!transform.Find("Alarm").GetComponent<AudioSource>().isPlaying)
+					transform.Find("Alarm").GetComponent<AudioSource>().Play ();
 
 				fireTime += Time.deltaTime;
 				if(fireState == 0) {
@@ -161,8 +161,8 @@ public class DroneScript : MonoBehaviour {
 				}
 			}
 			else {
-				if(transform.FindChild("Alarm").audio.isPlaying)
-					transform.FindChild("Alarm").audio.Stop ();
+				if(transform.Find("Alarm").GetComponent<AudioSource>().isPlaying)
+					transform.Find("Alarm").GetComponent<AudioSource>().Stop ();
 			}
 		}
 	}

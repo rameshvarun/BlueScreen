@@ -17,16 +17,16 @@ public class CyberspaceControls : MonoBehaviour {
 
 	void FixedUpdate () {
 		// Movement
-		rigidbody.AddRelativeForce(forceMultiplier * Input.GetAxis("Horizontal") * Vector3.right );
-		rigidbody.AddRelativeForce(forceMultiplier * Input.GetAxis("Vertical") * Vector3.forward );
+		GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * Input.GetAxis("Horizontal") * Vector3.right );
+		GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * Input.GetAxis("Vertical") * Vector3.forward );
 
 		// Rolling
-		rigidbody.rotation *= Quaternion.AngleAxis(Input.GetAxis("Lean"), Vector3.forward);
+		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(Input.GetAxis("Lean"), Vector3.forward);
 
 
 		// Horizontal view rotation
-		rigidbody.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
-		rigidbody.rotation *= Quaternion.AngleAxis(-Input.GetAxis("Mouse Y")*5, Vector3.right);
+		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
+		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(-Input.GetAxis("Mouse Y")*5, Vector3.right);
 
 		// Shooting
 		reloadTimer += Time.deltaTime;
@@ -35,7 +35,7 @@ public class CyberspaceControls : MonoBehaviour {
 			* Quaternion.AngleAxis(Random.Range(-2.0f, 2.0f), Vector3.right);
 
 			Instantiate(bullet, transform.position, rotation);
-			rigidbody.AddForce(- 3.0f * transform.forward );
+			GetComponent<Rigidbody>().AddForce(- 3.0f * transform.forward );
 
 			reloadTimer = 0;
 		}

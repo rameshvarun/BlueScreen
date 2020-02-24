@@ -30,7 +30,7 @@ public class LeverScript : MonoBehaviour {
 					// TODO: Work with controllers
 					if(Input.GetMouseButton(0)) {
 						pulled = true;
-						this.light.light.color = Color.green;
+						this.light.GetComponent<Light>().color = Color.green;
 						beacon.GetComponent<MeshRenderer>().material = greenMaterial;
 
 						AudioSource.PlayClipAtPoint(audio, transform.position);
@@ -39,7 +39,7 @@ public class LeverScript : MonoBehaviour {
 			}
 		}
 		else {
-			Transform handle = this.transform.FindChild("leverhandle");
+			Transform handle = this.transform.Find("leverhandle");
 			handle.localRotation = Quaternion.Lerp(handle.localRotation, Quaternion.Euler(365, -90, 90), Time.deltaTime * 5.0f);
 		}
 	}

@@ -16,7 +16,7 @@ public class ApartmentEndScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(player.transform.position.z > transform.position.z) {
-			player.rigidbody.AddForce(new Vector3(0, 0, 10));
+			player.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 10));
 			timer += Time.deltaTime;
 
 			if(timer > 6.0f) {
