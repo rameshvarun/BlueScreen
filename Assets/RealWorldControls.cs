@@ -40,7 +40,11 @@ public class RealWorldControls : MonoBehaviour {
 		bool crouching = Input.GetButton("Crouch");
 		
 		if(grounded) {
-			Vector3 targetVel = speed*transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            if (inputDirection.magnitude > 1.0)
+                inputDirection.Normalize();
+
+            Vector3 targetVel = speed*transform.TransformDirection(inputDirection);
 
 			if(crouching) {
 				height = crouchHeight;
