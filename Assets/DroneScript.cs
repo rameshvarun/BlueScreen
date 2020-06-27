@@ -30,19 +30,22 @@ public class DroneScript : MonoBehaviour {
 	}
 
 	void FireAtPlayer() {
-
-
 		RaycastHit hit;
 		Vector3 searchPosition = transform.Find("Searchlight").transform.position;
 
-		if(Physics.Raycast(searchPosition, player.transform.position - searchPosition, out hit) ) {
+		if(Physics.Raycast(searchPosition, GetPlayerPosition() - searchPosition, out hit) ) {
 			AudioSource.PlayClipAtPoint(droneLaser, hit.point);
 			if(hit.collider.tag == "Player") {
 				player.SendMessage("Hit", power);
-				Instantiate(laser, GetComponent<Rigidbody>().position, Quaternion.LookRotation(player.transform.position - GetComponent<Rigidbody>().position) );
+				Instantiate(laser, GetComponent<Rigidbody>().position, Quaternion.LookRotation(GetPlayerPosition() - GetComponent<Rigidbody>().position) );
 			}
 		}
 	}
+
+    Vector3 GetPlayerPosition()
+    {
+        return player.GetComponent<CapsuleCollider>().bounds.center;
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -59,13 +62,13 @@ public class DroneScript : MonoBehaviour {
 				}
 			}
 			else {
-				if(Vector3.Distance(transform.position, player.transform.position) > 6.0f) {
+				if(Vector3.Distance(transform.position, GetPlayerPosition()) > 6.0f) {
 					Vector3 delta = targetPosition - transform.position;
 					GetComponent<Rigidbody>().AddForce(delta.normalized * 4.0f);
 				}
 			}
 
-			Vector3 targetDirection = (alertTime > 0.0f) ? (GetComponent<Rigidbody>().position - player.transform.position) : path[currentPath].forward;
+			Vector3 targetDirection = (alertTime > 0.0f) ? (GetComponent<Rigidbody>().position - GetPlayerPosition()) : path[currentPath].forward;
 
 			float dangle = Vector3.Angle(transform.forward, targetDirection);
 			if(dangle > 5.0f) {
@@ -73,23 +76,12 @@ public class DroneScript : MonoBehaviour {
 				GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
 			}
 
-			// Orient upwards
-			if(!(alertTime > 0.0f)) {
-				dangle = Vector3.Angle(transform.up, Vector3.up);
-				if(dangle > 5.0f) {
-					Vector3 cross = Vector3.Cross(transform.up, Vector3.up);
-					GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
-				}
+			// Orient upwards.
+			dangle = Vector3.Angle(transform.up, Vector3.up);
+			if(dangle > 5.0f) {
+				Vector3 cross = Vector3.Cross(transform.up, Vector3.up);
+				GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
 			}
-			//Orient sideways
-			else {
-				dangle = Vector3.Angle(transform.right, Vector3.up);
-				if(dangle > 5.0f) {
-					Vector3 cross = Vector3.Cross(transform.right, Vector3.up);
-					GetComponent<Rigidbody>().AddTorque((cross * dangle).normalized * 2.0f);
-				}
-			}
-
 		}
 
 		// Slight gravity
@@ -100,20 +92,29 @@ public class DroneScript : MonoBehaviour {
 			RaycastHit hit;
 			Vector3 searchPosition = transform.Find("Searchlight").transform.position;
 
+            // Check if the player can be seen on the current frame.
 			bool seen = false;
-			if(Physics.Raycast(searchPosition, player.transform.position - searchPosition, out hit) ) {
-				if(hit.collider.tag == "Player") {
-					Vector3 dpos = player.transform.position - searchPosition;
-					float angle = Mathf.Abs(Vector3.Angle(-transform.forward, dpos));
 
-					if(angle < 45.0f && dpos.magnitude < 20.0f) {
-						seen = true;
-						lastKnownPosition = player.transform.position;
-					}
-					
-				}
-			}
+            // Drones can only see the player if they are in the real world.
+            if (player.GetComponent<RealWorldControls>().enabled)
+            {
+                Vector3 playerPosition = GetPlayerPosition();
+                if (Physics.Raycast(searchPosition, playerPosition - searchPosition, out hit))
+                {
+                    if (hit.collider.tag == "Player")
+                    {
+                        Vector3 dpos = playerPosition - searchPosition;
+                        float angle = Mathf.Abs(Vector3.Angle(-transform.forward, dpos));
 
+                        if (angle < 45.0f && dpos.magnitude < 20.0f)
+                        {
+                            seen = true;
+                            lastKnownPosition = playerPosition;
+                        }
+
+                    }
+                }
+            }
 
 			if(seen && alertTime < 0) {
 				if(sightedTime < 0) {
