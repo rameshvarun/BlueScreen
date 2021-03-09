@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public enum GameState {
 	Cyberspace,
@@ -13,11 +14,11 @@ public class PlayerState : MonoBehaviour {
 
 	public static GameState state;
 
-	public GUITexture clickableTexture;
-	public GUITexture whiteFader;
-	public GUITexture crosshair;
-	public GUITexture healthFader;
-	public GUITexture blackFader;
+	public Image clickableTexture;
+	public Image whiteFader;
+	public Image crosshair;
+	public Image healthFader;
+	public Image blackFader;
 
 	public AudioClip realToCyber;
 	public AudioClip cyberToReal;
@@ -37,8 +38,6 @@ public class PlayerState : MonoBehaviour {
 	void Start () {
 		health = maxHealth;
 		state = GameState.RealWorld;
-
-
 	}
 
 	void Hit(float power) {
@@ -273,8 +272,6 @@ public class PlayerState : MonoBehaviour {
 		}
 
 		if(state == GameState.Death) {
-
-
 			transitionTime += Time.deltaTime;
 			if(transitionTime > 3.0f) {
 				Application.LoadLevel(Application.loadedLevel);

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Fader : MonoBehaviour {
 
@@ -12,15 +13,15 @@ public class Fader : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float newAlpha = GetComponent<GUITexture>().color.a;
+		float newAlpha = GetComponent<Image>().color.a;
 		if(state == 1) {
-			newAlpha = Mathf.Lerp(GetComponent<GUITexture>().color.a, 1.0f, Time.deltaTime * 5.0f);
+			newAlpha = Mathf.Lerp(GetComponent<Image>().color.a, 1.0f, Time.deltaTime * 5.0f);
 		}
 		if(state == 0) {
-			newAlpha = Mathf.Lerp(GetComponent<GUITexture>().color.a, 0.0f, Time.deltaTime * 5.0f);
+			newAlpha = Mathf.Lerp(GetComponent<Image>().color.a, 0.0f, Time.deltaTime * 5.0f);
 		}
 
-		GetComponent<GUITexture>().color = new Color(GetComponent<GUITexture>().color.r, GetComponent<GUITexture>().color.g, GetComponent<GUITexture>().color.b, newAlpha);
+		GetComponent<Image>().color = new Color(GetComponent<Image>().color.r, GetComponent<Image>().color.g, GetComponent<Image>().color.b, newAlpha);
 	}
 
 	public void FadeIn() {
