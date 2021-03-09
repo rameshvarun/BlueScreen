@@ -10,23 +10,28 @@ public class LeverScript : MonoBehaviour {
 
 	public AudioClip audio;
 
-	public GUITexture clickable;
+	private bool clickable;
 
 	// Use this for initialization
 	void Start () {
-	
+		clickable = false;
 	}
+
+	public bool isClickable()
+    {
+		return clickable;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		clickable.enabled = false;
+		clickable = false;
 		if(!pulled) {
 			// Check for entrance into cyberspace
 			RaycastHit hit;
 			Transform cam = Camera.main.transform;
 			if(Physics.Raycast(cam.position, cam.forward, out hit)) {
 				if(hit.collider.gameObject == gameObject && Vector3.Distance(cam.position, hit.point) < 3.0f ) {
-					clickable.enabled = true;
+					clickable = true;
 					// TODO: Work with controllers
 					if(Input.GetMouseButton(0)) {
 						pulled = true;

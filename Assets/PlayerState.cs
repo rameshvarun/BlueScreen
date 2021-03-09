@@ -108,9 +108,16 @@ public class PlayerState : MonoBehaviour {
 						AudioSource.PlayClipAtPoint(realToCyber, transform.position);
 					}
 				}
-
-
 			}
+
+			// Check for levers
+			foreach (var lever in GameObject.FindObjectsOfType<LeverScript>())
+            {
+				if (lever.isClickable())
+                {
+					clickableTexture.enabled = true;
+                }
+            }
 		}
 		if(state == GameState.Cyberspace) {
 			// Object is dynamic
