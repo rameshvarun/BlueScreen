@@ -32,3 +32,4 @@ Material:
     - _EmissionLM: 0
     m_Colors:
     - _Color: {r: 0, g: 0.37241364, b: 1, a: 1}
+  m_BuildTextureStacks: []
