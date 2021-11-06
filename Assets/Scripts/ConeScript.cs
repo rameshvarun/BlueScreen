@@ -30,11 +30,17 @@ public class ConeScript : MonoBehaviour {
 		stageTimer += Time.deltaTime;
 
 		if(stage == 0) {
-			RaycastHit hit;
-			if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit)) {
-				if(hit.collider.tag == "Player") {
-					stage = 1;
-					stageTimer = 0;
+			// Cones can only see the player in Cyberspace
+			if (player.GetComponent<CyberspaceControls>().enabled)
+            {
+				RaycastHit hit;
+				if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
+				{
+					if (hit.collider.tag == "Player")
+					{
+						stage = 1;
+						stageTimer = 0;
+					}
 				}
 			}
 		}

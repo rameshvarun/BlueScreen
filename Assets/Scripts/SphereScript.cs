@@ -27,14 +27,21 @@ public class SphereScript : MonoBehaviour {
 
 		reloadTimer += Time.deltaTime;
 
-		RaycastHit hit;
-		if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit)) {
-			if(hit.collider.tag == "Player") {
-				if(reloadTimer > reloadTime) {
-					Instantiate(bullet, transform.position, Quaternion.LookRotation(player.transform.position - transform.position));
-					reloadTimer = 0;
-				}
+		// Spheres can only see the player in Cyberspace
+		if (player.GetComponent<CyberspaceControls>().enabled)
+        {
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
+			{
+				if (hit.collider.tag == "Player")
+				{
+					if (reloadTimer > reloadTime)
+					{
+						Instantiate(bullet, transform.position, Quaternion.LookRotation(player.transform.position - transform.position));
+						reloadTimer = 0;
+					}
 
+				}
 			}
 		}
 	}

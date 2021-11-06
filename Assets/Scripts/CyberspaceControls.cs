@@ -11,12 +11,6 @@ public class CyberspaceControls : MonoBehaviour
 
     public Transform bullet;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         // Horizontal view rotation
