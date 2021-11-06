@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Wireframe : MonoBehaviour {
+	public static bool wireframeEnabled = false;
 
-	// Wireframe
-	void OnPreRender() {
-		GL.wireframe = true;
-	}
-	void OnPostRender() {
-		GL.wireframe = false;
-	}
+    void Start()
+    {
+        wireframeEnabled = false;
+    }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+    void Update () {
+		MeshFilter[] meshFilters = GameObject.FindObjectsOfType<MeshFilter>();
+
+		foreach(MeshFilter mf in meshFilters)
+        {
+			if((LayerMask.GetMask("RealWorld") & mf.gameObject.layer) == 0 && mf.gameObject.GetComponent<WireframeConverter>() == null)
+            {
+				mf.gameObject.AddComponent<WireframeConverter>();
+			}
+        }
 	}
 }

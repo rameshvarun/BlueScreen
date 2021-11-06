@@ -237,7 +237,7 @@ public class PlayerState : MonoBehaviour {
 					whiteFader.GetComponent<Fader>().FadeOut();
 
 					// Enable Wireframe
-					Camera.main.GetComponent<Wireframe>().enabled = true;
+					Wireframe.wireframeEnabled = true;
 
 					// Make Cyberspace visible
 					Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("CyberSpace"));
@@ -261,7 +261,7 @@ public class PlayerState : MonoBehaviour {
 			}
 			if(transitionTime > 2.0f) {
 				// Disable Wireframe
-				Camera.main.GetComponent<Wireframe>().enabled = false;
+				Wireframe.wireframeEnabled = false;
 				
 				// Make Cyberspace disappear
 				Camera.main.cullingMask ^= (1 << LayerMask.NameToLayer("CyberSpace"));

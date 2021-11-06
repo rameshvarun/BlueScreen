@@ -22,18 +22,21 @@ public class RealWorldControls : MonoBehaviour {
 	void Start () {
 		rotation = Quaternion.identity;
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    void Update()
+    {
+		// Horizontal view rotation
+		rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * 5, Vector3.up);
+	}
+
+    // Update is called once per frame
+    void FixedUpdate () {
 		// Freeze rotation and disable gravity
 		GetComponent<Rigidbody>().freezeRotation = true;
 		GetComponent<Rigidbody>().useGravity = false;
 
-		// Horizontal view rotation
-		rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
-
 		// Apply leaning
-		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 120, Time.deltaTime * 5.0f);
+		float leanAngle = Mathf.Lerp(currentLean, Input.GetAxis("Lean") * 120, Time.fixedDeltaTime * 5.0f);
 		Quaternion leanRotate = Quaternion.AngleAxis(leanAngle, Vector3.forward);
 		GetComponent<Rigidbody>().rotation = rotation * leanRotate;
 

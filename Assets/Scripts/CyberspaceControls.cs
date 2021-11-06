@@ -15,7 +15,14 @@ public class CyberspaceControls : MonoBehaviour {
 	
 	}
 
-	void FixedUpdate () {
+    void Update()
+    {
+		// Horizontal view rotation
+		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * 5, Vector3.up);
+		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(-Input.GetAxis("Mouse Y") * 5, Vector3.right);
+	}
+
+    void FixedUpdate () {
 		// Movement
 		GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * Input.GetAxis("Horizontal") * Vector3.right );
 		GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * Input.GetAxis("Vertical") * Vector3.forward );
@@ -24,9 +31,7 @@ public class CyberspaceControls : MonoBehaviour {
 		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(Input.GetAxis("Lean"), Vector3.forward);
 
 
-		// Horizontal view rotation
-		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X")*5, Vector3.up);
-		GetComponent<Rigidbody>().rotation *= Quaternion.AngleAxis(-Input.GetAxis("Mouse Y")*5, Vector3.right);
+
 
 		// Shooting
 		reloadTimer += Time.deltaTime;
