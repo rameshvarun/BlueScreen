@@ -25,7 +25,6 @@ public class ApartmentEndScript : MonoBehaviour {
 			}
 			if(timer > 8.0f) {
 				Application.LoadLevel(level);
-				
 			}
 		}
 	}

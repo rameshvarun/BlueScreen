@@ -8463,7 +8463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceMultiplier: 2
-  reloadTime: 0.1
+  reloadTime: 0.12
   bullet: {fileID: 400000, guid: 631f1eb586b5504458f313ac75b2f408, type: 3}
 --- !u!82 &960243847
 AudioSource:

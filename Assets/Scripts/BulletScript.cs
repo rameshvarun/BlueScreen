@@ -35,7 +35,7 @@ public class BulletScript : MonoBehaviour {
 			bool ishit = (side == 0) ? hit.collider.tag != "Player" : hit.collider.tag != "Enemy";
 			if(ishit) {
 				Destroy(this.gameObject);
-				hit.collider.gameObject.SendMessage("Hit", power);
+				hit.collider.gameObject.SendMessage("Hit", power, SendMessageOptions.DontRequireReceiver);
 				AudioSource.PlayClipAtPoint(hitSound, transform.position, 0.1f);
 			}
 		}

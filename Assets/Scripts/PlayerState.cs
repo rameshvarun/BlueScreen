@@ -158,17 +158,19 @@ public class PlayerState : MonoBehaviour {
 						GameObject.Find("CyberMusic").GetComponent<AudioSource>().volume = 0.0f;
 					}
 				}
-			}
 
-			ExitScript levelexit = hit.collider.gameObject.GetComponent<ExitScript>();
-			if(levelexit && Vector3.Distance(cam.position, hit.point) < 0.5f ) {
-				clickableTexture.enabled = true;
-				
-				if(Input.GetMouseButton(0)) {
-					levelexit.Exit();
-					whiteFader.GetComponent<Fader>().FadeIn();
+				ExitScript levelexit = hit.collider.gameObject.GetComponent<ExitScript>();
+				if (levelexit && Vector3.Distance(cam.position, hit.point) < 0.5f)
+				{
+					clickableTexture.enabled = true;
 
-					AudioSource.PlayClipAtPoint(cyberToReal, transform.position);
+					if (Input.GetMouseButton(0))
+					{
+						levelexit.Exit();
+						whiteFader.GetComponent<Fader>().FadeIn();
+
+						AudioSource.PlayClipAtPoint(cyberToReal, transform.position);
+					}
 				}
 			}
 		}
