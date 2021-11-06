@@ -26,3 +26,6 @@ Logs/
 sysinfo.txt
 
 .vs/
+
+# Ignore lightmap data
+Assets/Scenes/intro/

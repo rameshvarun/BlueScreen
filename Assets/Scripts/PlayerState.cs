@@ -181,13 +181,15 @@ public class PlayerState : MonoBehaviour {
 			GetComponent<CapsuleCollider>().enabled = false;
 			GetComponent<RealWorldControls>().enabled = false;
 			Camera.main.GetComponent<UpDownLook>().enabled = false;
-			Camera.main.GetComponent<UpDownLook>().rotation = Quaternion.identity;
 
-			// Disable cyberspace controls
+			// Reset vertical angle.
+			Camera.main.GetComponent<UpDownLook>().verticalAngle = 0;
+
+			// Enable cyberspace controls
 			GetComponent<SphereCollider>().enabled = false;
 			GetComponent<CyberspaceControls>().enabled = false;
 
-			//Make sure footsteps stopped
+			// Make sure footsteps stopped
 			GetComponent<AudioSource>().Stop();
 			
 			// Fly to front of entrance
