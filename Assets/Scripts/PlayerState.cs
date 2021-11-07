@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public enum GameState {
 	Cyberspace,
@@ -34,10 +35,14 @@ public class PlayerState : MonoBehaviour {
 	public float health;
 	public float healRate = 0.5f;
 
+	private PlayerInput input;
+
 	// Use this for initialization
 	void Start () {
 		health = maxHealth;
 		state = GameState.RealWorld;
+
+		input = GetComponent<PlayerInput>();
 	}
 
 	void Hit(float power) {
@@ -99,7 +104,7 @@ public class PlayerState : MonoBehaviour {
 					clickableTexture.enabled = true;
 
 					// TODO: Work with controllers
-					if(Input.GetMouseButton(0)) {
+					if(input.actions["Interact"].triggered) {
 						state = GameState.RealWorldToCyberspace;
 						this.entrance = entrance;
 						transitionPhase = 0;
@@ -145,7 +150,7 @@ public class PlayerState : MonoBehaviour {
 					clickableTexture.enabled = true;
 					
 					// TODO: Work with controllers
-					if(Input.GetMouseButton(0)) {
+					if(input.actions["Interact"].triggered) {
 						state = GameState.CyberspaceToRealWorld;
 						this.exit = exit;
 						transitionPhase = 0;
@@ -164,7 +169,7 @@ public class PlayerState : MonoBehaviour {
 				{
 					clickableTexture.enabled = true;
 
-					if (Input.GetMouseButton(0) && !levelexit.exiting)
+					if (input.actions["Interact"].triggered && !levelexit.exiting)
 					{
 						levelexit.Exit();
 						whiteFader.GetComponent<Fader>().FadeIn();

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class CyberspaceControls : MonoBehaviour
 {
@@ -11,25 +12,32 @@ public class CyberspaceControls : MonoBehaviour
 
     public Transform bullet;
 
+    private PlayerInput input;
+
+    void Start()
+    {
+        input = GetComponent<PlayerInput>();
+    }
+
     void Update()
     {
         // Horizontal view rotation
         GetComponent<Rigidbody>().MoveRotation(
             GetComponent<Rigidbody>().rotation
-            * Quaternion.AngleAxis(Input.GetAxis("Mouse X") * 5, Vector3.up)
+            * Quaternion.AngleAxis(input.actions["Look"].ReadValue<Vector2>().x, Vector3.up)
             );
         // Vertical view rotation
         GetComponent<Rigidbody>().MoveRotation(
             GetComponent<Rigidbody>().rotation
-            * Quaternion.AngleAxis(-Input.GetAxis("Mouse Y") * 5, Vector3.right)
+            * Quaternion.AngleAxis(-input.actions["Look"].ReadValue<Vector2>().y, Vector3.right)
         );
 
         // Rolling
-        GetComponent<Rigidbody>().MoveRotation(GetComponent<Rigidbody>().rotation * Quaternion.AngleAxis(Input.GetAxis("Lean") * Time.deltaTime * 50, Vector3.forward));
+        GetComponent<Rigidbody>().MoveRotation(GetComponent<Rigidbody>().rotation * Quaternion.AngleAxis(- input.actions["Roll"].ReadValue<float>() * Time.deltaTime * 50, Vector3.forward));
 
         // Shooting
         reloadTimer += Time.deltaTime;
-        if (reloadTimer > reloadTime && Input.GetMouseButton(0))
+        if (reloadTimer > reloadTime && input.actions["Shoot"].ReadValue<float>() > 0)
         {
             Quaternion rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-2.0f, 2.0f), Vector3.up)
             * Quaternion.AngleAxis(Random.Range(-2.0f, 2.0f), Vector3.right);
@@ -44,7 +52,7 @@ public class CyberspaceControls : MonoBehaviour
     void FixedUpdate()
     {
         // Movement
-        GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * Input.GetAxis("Horizontal") * Vector3.right);
-        GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * Input.GetAxis("Vertical") * Vector3.forward);
+        GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * input.actions["Movement"].ReadValue<Vector2>().x * Vector3.right);
+        GetComponent<Rigidbody>().AddRelativeForce(forceMultiplier * input.actions["Movement"].ReadValue<Vector2>().y * Vector3.forward);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class LeverScript : MonoBehaviour {
 	bool pulled = false;
@@ -11,10 +12,12 @@ public class LeverScript : MonoBehaviour {
 	public AudioClip audio;
 
 	private bool clickable;
+	private PlayerInput input;
 
 	// Use this for initialization
 	void Start () {
 		clickable = false;
+		input = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
 	}
 
 	public bool isClickable()
@@ -32,8 +35,7 @@ public class LeverScript : MonoBehaviour {
 			if(Physics.Raycast(cam.position, cam.forward, out hit)) {
 				if(hit.collider.gameObject == gameObject && Vector3.Distance(cam.position, hit.point) < 3.0f ) {
 					clickable = true;
-					// TODO: Work with controllers
-					if(Input.GetMouseButton(0)) {
+					if(input.actions["Interact"].triggered) {
 						pulled = true;
 						this.light.GetComponent<Light>().color = Color.green;
 						beacon.GetComponent<MeshRenderer>().material = greenMaterial;
