@@ -13,11 +13,10 @@ public class ApartmentEndScript : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if(player.transform.position.z > transform.position.z) {
 			player.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 10));
-			timer += Time.deltaTime;
+			timer += Time.fixedDeltaTime;
 
 			if(timer > 6.0f) {
 				GameObject.Find("BlackFader").GetComponent<Fader>().FadeIn();
