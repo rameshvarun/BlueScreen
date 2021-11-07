@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ExitScript : MonoBehaviour {
 
-	bool exiting = false;
+	public bool exiting = false;
 	float time = 0.0f;
 
 	public int level = 0;

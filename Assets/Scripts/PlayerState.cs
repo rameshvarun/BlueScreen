@@ -164,7 +164,7 @@ public class PlayerState : MonoBehaviour {
 				{
 					clickableTexture.enabled = true;
 
-					if (Input.GetMouseButton(0))
+					if (Input.GetMouseButton(0) && !levelexit.exiting)
 					{
 						levelexit.Exit();
 						whiteFader.GetComponent<Fader>().FadeIn();
