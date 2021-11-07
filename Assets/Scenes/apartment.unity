@@ -29609,10 +29609,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.000000026692515
       objectReference: {fileID: 0}
-    - target: {fileID: 10800000, guid: 47d3c490330b0d145a3106f09263ac03, type: 3}
-      propertyPath: m_Lightmapping
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 47d3c490330b0d145a3106f09263ac03, type: 3}
       propertyPath: light
       value: 
@@ -72275,10 +72271,6 @@ PrefabInstance:
     - target: {fileID: 400004, guid: 47d3c490330b0d145a3106f09263ac03, type: 3}
       propertyPath: m_LocalRotation.z
       value: 4.182985e-15
-      objectReference: {fileID: 0}
-    - target: {fileID: 10800000, guid: 47d3c490330b0d145a3106f09263ac03, type: 3}
-      propertyPath: m_Lightmapping
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 47d3c490330b0d145a3106f09263ac03, type: 3}
       propertyPath: light

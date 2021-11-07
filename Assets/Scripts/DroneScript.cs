@@ -145,7 +145,7 @@ public class DroneScript : MonoBehaviour {
 				if(!transform.Find("Alarm").GetComponent<AudioSource>().isPlaying)
 					transform.Find("Alarm").GetComponent<AudioSource>().Play ();
 
-				fireTime += Time.deltaTime;
+				fireTime += Time.fixedDeltaTime;
 				if(fireState == 0) {
 					if(fireTime > 2.0f) {
 						fireState = 1;
