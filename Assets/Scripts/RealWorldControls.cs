@@ -21,18 +21,20 @@ public class RealWorldControls : MonoBehaviour
     public float crouchHeight = 1.2f;
 
     private PlayerInput input;
+    private OnScreenTrackpad trackpad;
 
     // Use this for initialization
     void Start()
     {
         rotation = Quaternion.identity;
         input = GetComponent<PlayerInput>();
+        trackpad = GameObject.FindObjectOfType<OnScreenTrackpad>(true);
     }
 
     void Update()
     {
         // Horizontal view rotation
-        rotation *= Quaternion.AngleAxis(input.actions["Look"].ReadValue<Vector2>().x, Vector3.up);
+        rotation *= Quaternion.AngleAxis(input.actions["Look"].ReadValue<Vector2>().x + trackpad.getDelta().x, Vector3.up);
 
         // Apply leaning
         currentLean = Mathf.Lerp(currentLean, input.actions["Lean"].ReadValue<float>() * 20, Time.deltaTime * 5.0f);
