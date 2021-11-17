@@ -56,6 +56,18 @@
          result="composite2"
          id="feComposite4390" />
     </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Brilliance"
+       id="filter3415"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="3.97297 -0.510511 -0.510511 0 -0.0911854 -0.510511 3.97297 -0.510511 0 -0.0911854 -0.510511 -0.510511 3.97297 0 -0.0911854 0 0 0 1 0 "
+         id="feColorMatrix3413" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -66,16 +78,16 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.12780371"
      inkscape:cx="1114.9911"
-     inkscape:cy="1107.1666"
+     inkscape:cy="1103.2544"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      borderlayer="true"
      inkscape:window-width="1458"
-     inkscape:window-height="749"
-     inkscape:window-x="311"
-     inkscape:window-y="156"
+     inkscape:window-height="802"
+     inkscape:window-x="366"
+     inkscape:window-y="321"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0" />
   <metadata
@@ -102,22 +114,22 @@
        id="image843"
        x="-257.19949"
        y="-4.6289325"
-       style="stroke-width:1.32291667;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="stroke-width:1.32291667;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter3415)" />
     <text
        xml:space="preserve"
-       style="font-size:91.7222px;line-height:0.85;font-family:sans-serif;word-spacing:0px;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter4392)"
+       style="font-size:102.306px;line-height:0.85;font-family:sans-serif;word-spacing:0px;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter4392)"
        x="322.73019"
        y="223.58507"
        id="text315"><tspan
          sodipodi:role="line"
          id="tspan313"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:91.7222px;font-family:'KenPixel Future';-inkscape-font-specification:'KenPixel Future';text-align:center;text-anchor:middle;fill:#ffffff;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:102.306px;font-family:'KenVector Future';-inkscape-font-specification:'KenVector Future';text-align:center;text-anchor:middle;fill:#ffffff;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          x="322.73019"
          y="223.58507">BLUE</tspan><tspan
          sodipodi:role="line"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:91.7222px;font-family:'KenPixel Future';-inkscape-font-specification:'KenPixel Future';text-align:center;text-anchor:middle;fill:#ffffff;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:102.306px;font-family:'KenVector Future';-inkscape-font-specification:'KenVector Future';text-align:center;text-anchor:middle;fill:#ffffff;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          x="322.73019"
-         y="321.05548"
+         y="332.30209"
          id="tspan3746">SCREEN</tspan></text>
   </g>
 </svg>
